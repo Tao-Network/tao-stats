@@ -287,7 +287,8 @@ function getGeoData(uri, tag){
       if (textStatus == 'timeout') {
         this.tryCount++;
         if (this.tryCount <= this.retryLimit) {
-          $.ajax(this);
+          _ajax = $.ajax(this);
+          _.delay(_ajax, 1000);
           return;
         }            
         return;

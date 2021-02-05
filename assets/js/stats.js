@@ -266,7 +266,6 @@ function addMarkerToMap(_lat,_lng,key) {
 }
 async function updateMap(data){
   var ip = data.info.ip;
-  var geo_uri = geo_url + ip + geo_params;
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){

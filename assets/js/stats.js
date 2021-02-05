@@ -104,7 +104,7 @@ function processHistory(data){
         ip: value.ip
       }
     }
-    updateMap(d);    
+    _.defer(updateMap, d)
   }  
 
 }
@@ -265,7 +265,21 @@ function addMarkerToMap(_lat,_lng,key) {
   }
 }
 
-var throttled = false;
+function getGeoData(uri, tag){
+  $.ajax({
+    type: 'GET',
+    url: uri,
+    dataType: 'json',
+    success: function (result) {
+      console.log(result)
+      const lat = result.latitude;
+      const lng = result.longitude;
+      const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
+      $('#flag_' + tag).html(emoji);
+      addMarkerToMap(lat,lng,tag);
+    }
+  });  
+}
 
 function updateMap(data){
   var ip = data.info.ip;
@@ -273,26 +287,7 @@ function updateMap(data){
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
     if (ip){
-      if (throttled){
-        throttled(geo_uri);
-      } else {
-        throttled = _.throttle(function(geo_uri){
-          console.log(geo_uri)
-          $.ajax({
-            type: 'GET',
-            url: geo_uri,
-            dataType: 'json',
-            success: function (result) {
-              console.log(result)
-              const lat = result.latitude;
-              const lng = result.longitude;
-              const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
-              $('#flag_' + tag).html(emoji);
-              addMarkerToMap(lat,lng,tag);
-            }
-          });
-        }, 2000);
-      }
+      _.delay(getGeoData, 1000, geo_uri, tag)
     }
   }  
 }

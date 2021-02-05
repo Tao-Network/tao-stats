@@ -279,6 +279,7 @@ function getGeoData(uri, tag){
       $('#flag_' + tag).html(emoji);
       addMarkerToMap(lat,lng,tag);
     },
+    /*
     error: function(xhr, textStatus, errorThrown ) {
       if (textStatus == 'timeout') {
         this.tryCount++;
@@ -289,6 +290,7 @@ function getGeoData(uri, tag){
         return;
       }
     }
+    */
   });  
 }
 

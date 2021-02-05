@@ -66,7 +66,7 @@ $( document ).ready(function() {
 	var socket_api = "/socket"
 	var websocket_uri = shifu_addr + socket_api
 	const startConnection=()=>{
-		return new WebSocket("ws://" + websocket_uri);
+		return new WebSocket("wss://" + websocket_uri);
 	}
 
 	var websocket = startConnection();

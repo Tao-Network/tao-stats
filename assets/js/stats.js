@@ -266,6 +266,7 @@ function addMarkerToMap(_lat,_lng,key) {
 }
 
 var throttled = _.throttle(function(geo_uri){
+  console.log(geo_uri)
   $.ajax({
     type: 'GET',
     url: geo_uri,
@@ -279,7 +280,7 @@ var throttled = _.throttle(function(geo_uri){
       addMarkerToMap(lat,lng,tag);
     }
   });
-}, 1000);
+}, 2000);
 
 async function updateMap(data){
   var ip = data.info.ip;

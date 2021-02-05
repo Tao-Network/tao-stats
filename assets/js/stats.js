@@ -244,7 +244,7 @@ function addMarkerToMap(lat,lng,key) {
 
 function updateMap(data){
   const geo_api_key='122e3cf0c5039549e14a02ba485bc7ab';
-  const geo_url = 'http://api.ipstack.com/';
+  const geo_url = 'https://api.ipstack.com/';
   var geo_params = '?access_key='+geo_api_key+'&output=json';
   var ip = data.info.ip;
   var geo_uri = geo_url + ip + geo_params;

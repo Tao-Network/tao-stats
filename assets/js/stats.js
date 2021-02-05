@@ -5,6 +5,14 @@ var nf = Intl.NumberFormat();
 var block_list = [];
 var node_list = [];
 var markers = [];
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
 function secondsToHms(d) {
     d = Number(d);
     var h = Math.floor(d / 3600);
@@ -81,7 +89,9 @@ function processHistory(data){
         ip: value.ip
       }
     }
-    updateMap(d);    
+    updateMap(d);  
+    sleep(100);
+  
   }  
 
 }
@@ -212,7 +222,7 @@ function updateBlocks(data){
           tx_color='danger'
         }
       }
-      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
+      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + ' fa-2x" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
         .hide()
         .prependTo($('#last_blocks_body'))
         .fadeIn("slow")
@@ -233,32 +243,23 @@ function updateHighestBlock(block_number,timestamp){
   block_bar_val = 0;
 }
 
-function addMarkerToMap(lat,lng,key) {
+function addMarkerToMap(_lat,_lng,key) {
   map = $('#location_map');
   if (!markers.find(function(x){ return x === key})){
-    var marker = new H.map.Marker({lat:lat, lng:lng});
+    var marker = new H.map.Marker({lat:_lat, lng:_lng});
     map.addObject(marker);
     markers.push(key);
   }
-}
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
 }
 async function updateMap(data){
   const geo_api_key='122e3cf0c5039549e14a02ba485bc7ab';
   const geo_url = 'https://api.ipstack.com/';
   var geo_params = '?access_key='+geo_api_key+'&output=json';
   var ip = data.info.ip;
-  console.log(data)
   var geo_uri = geo_url + ip + geo_params;
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
-    sleep(1000);
     $.ajax({
       type: 'GET',
       url: geo_uri,
@@ -266,7 +267,6 @@ async function updateMap(data){
       success: function (result) {
         const lat = result.latitude;
         const lng = result.longitude;
-        console.log(result);
         const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
         $('#flag_' + tag).html(emoji);
         addMarkerToMap(lat,lng,tag);

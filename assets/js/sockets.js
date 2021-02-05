@@ -137,6 +137,6 @@ $( document ).ready(function() {
 		$('#socket-connection').addClass("font-danger");
 		failNotify();
 		websocket = startConnection();
-		var websocket= new WebSocket("ws://" + websocket_uri);
+		var websocket= new WebSocket("wss://" + websocket_uri);
 	}  
 });

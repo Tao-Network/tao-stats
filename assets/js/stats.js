@@ -12,6 +12,21 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
+function throttle(func, wait) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        if (!timeout) {
+            // the first time the event fires, we setup a timer, which 
+            // is used as a guard to block subsequent calls; once the 
+            // timer's handler fires, we reset it and create a new one
+            timeout = setTimeout(function() {
+                timeout = null;
+                func.apply(context, args);
+            }, wait);
+        }
+    }
+}
 
 function secondsToHms(d) {
     d = Number(d);
@@ -89,9 +104,7 @@ function processHistory(data){
         ip: value.ip
       }
     }
-    updateMap(d);  
-    sleep(100);
-  
+    updateMap(d);    
   }  
 
 }
@@ -260,18 +273,22 @@ async function updateMap(data){
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
-    $.ajax({
-      type: 'GET',
-      url: geo_uri,
-      dataType: 'json',
-      success: function (result) {
-        const lat = result.latitude;
-        const lng = result.longitude;
-        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
-        $('#flag_' + tag).html(emoji);
-        addMarkerToMap(lat,lng,tag);
-      }
-    });
+    throttle(function() {
+        $.ajax({
+          type: 'GET',
+          url: geo_uri,
+          dataType: 'json',
+          success: function (result) {
+            if (result.country_code){
+              const lat = result.latitude;
+              const lng = result.longitude;
+              const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
+              $('#flag_' + tag).html(emoji);
+              addMarkerToMap(lat,lng,tag);
+            }
+          }
+        });
+    }, 500);
   }  
 }
 

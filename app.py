@@ -87,7 +87,7 @@ async def send_history (ws):
 	} 
 	await ws.send_str(json.dumps(data))
 
-async def emit(socket,topic,payload=None):
+async def emit(_ws,topic,payload=None):
 	if payload is None:
 		msg={ 'emit':[ topic ] }
 	else:
@@ -96,7 +96,7 @@ async def emit(socket,topic,payload=None):
 		if _ws._req is not None:
 			if _ws._req.transport is not None:
 				if not _ws._req.transport.is_closing():
-					await socket.send_str(json.dumps(msg))
+					await _ws.send_str(json.dumps(msg))
 
 
 async def handle_hello(socket, payload):

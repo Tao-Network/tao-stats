@@ -248,7 +248,7 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
-function updateMap(data){
+async function updateMap(data){
   const geo_api_key='122e3cf0c5039549e14a02ba485bc7ab';
   const geo_url = 'https://api.ipstack.com/';
   var geo_params = '?access_key='+geo_api_key+'&output=json';

@@ -44,7 +44,7 @@ function processHistory(data){
   }  
 
   // stats
-  for (const [key, value] of Object.entries(data.blocks)) {
+  for (const [key, value] of Object.entries(data.stats)) {
     d = {
       id:key,
       stats: value
@@ -102,7 +102,7 @@ function buildPill(count,warning,danger,lt=true){
     }
 
   }
-  return '<span class="badge badge-pill badge-' + color +' f-12"><h6 class="mb-0">' + nf.format(count) + '</h6></span>'
+  return '<span class="font-' + color +' f-12"><h6 class="mb-0">' + nf.format(count) + '</h6></span>'
 }
 function buildPeerPill(count){
   return buildPill(count,6,4);
@@ -111,7 +111,7 @@ function buildLatencyPill(count){
   return buildPill(count,250,100,false);
 }
 function buildTxPill(count){
-  return '<span class="badge badge-pill badge-primary f-12"><h6 class="mb-0">' + count + '</h6></span>'
+  return '<span class="font-primary f-12"><h6 class="mb-0">' + count + '</h6></span>'
 }
 function buildBlocksPill(node_block){
   if ((highest_block - node_block) > 5){
@@ -123,7 +123,7 @@ function buildBlocksPill(node_block){
       var color='success'
     }
   }
-  return '<span class="badge badge-pill badge-' + color +' f-12"><h6 class="mb-0">' + nf.format(node_block) + '</h6></span>'
+  return '<span class="font-' + color +' f-12"><h6 class="mb-0">' + nf.format(node_block) + '</h6></span>'
 }
 function createNode(data){
   var tag = md5(data.id)

@@ -271,17 +271,15 @@ var throttled = _.throttle(function(geo_uri){
     url: geo_uri,
     dataType: 'json',
     success: function (result) {
-      if (result.country_code){
-        const lat = result.latitude;
-        const lng = result.longitude;
-        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
-        $('#flag_' + tag).html(emoji);
-        addMarkerToMap(lat,lng,tag);
-        console.log(result)
-      }
+      console.log(result)
+      const lat = result.latitude;
+      const lng = result.longitude;
+      const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
+      $('#flag_' + tag).html(emoji);
+      addMarkerToMap(lat,lng,tag);
     }
   });
-}, 750);
+}, 1000);
 
 async function updateMap(data){
   var ip = data.info.ip;

@@ -258,8 +258,7 @@ function updateHighestBlock(block_number,timestamp){
 
 function addMarkerToMap(_lat,_lng,key) {
   if (!markers.find(function(x){ return x === key})){
-    var marker = new H.map.Marker({lat:_lat, lng:_lng});
-    H.map.addObject(marker);
+    map.addMarkerToGroup(node_group, {lat:_lat, lng:_lng});
     markers.push(key);
   }
 }

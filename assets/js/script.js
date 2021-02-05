@@ -116,6 +116,8 @@ var map = new H.Map(document.getElementById('location_map'),
   zoom: 1,
   pixelRatio: pixelRatio
 });
+var node_group = new H.map.Group();
+map.addObject(node_group);
 
 $( document ).ready(function() {
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));

@@ -207,7 +207,7 @@ class NodeSocket(web.View):
 		del STATS[_id]
 		del PENDING[_id]
 		del IP_ADDR[_id]
-		print('{0} connection closed'.format(request.remote))
+		print('connection closed')
 
 		return ws
 

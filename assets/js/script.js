@@ -110,14 +110,14 @@ var defaultLayers = platform.createDefaultLayers({
   tileSize: pixelRatio === 1 ? 256 : 512,
   ppi: pixelRatio === 1 ? undefined : 320
 });
+var map = new H.Map(document.getElementById('location_map'),
+  defaultLayers.satellite.map,{
+  center: {lat: 20, lng: 0},
+  zoom: 1,
+  pixelRatio: pixelRatio
+});
 
 $( document ).ready(function() {
-    var map = new H.Map(document.getElementById('location_map'),
-      defaultLayers.satellite.map,{
-      center: {lat: 20, lng: 0},
-      zoom: 1,
-      pixelRatio: pixelRatio
-    });
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     //addMarkersToMap(map);

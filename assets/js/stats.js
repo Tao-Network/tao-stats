@@ -129,7 +129,7 @@ function createNode(data){
   var tag = md5(data.id)
   if (!node_list.find(function(x){ return x === tag }) ){
     row = '<tr>' +
-            '<td class="text-center"><div class="recent-images">' + profile_link(data.id) + ' <span class="badge badge-pill badge-info f-12 d-none" id="validator_' + tag + '"><h6 class="mb-0">Validator</h6></span></div></td>' +
+            '<td class="text-center"><div class="recent-images"><span class="badge badge-pill badge-info f-12 d-none" id="validator_' + tag + '"><h6 class="mb-0">Validator</h6></span></div></td>' +
             '<td class="text-center"><h5 class="default-text mb-0 f-w-700 f-18">' + data.info.name + '</h5></td>' +
             '<td class="f-w-700 text-center">' + data.info.node + '</td>' +
             '<td class="text-center"><i class="flag-icon flag-icon- fa-2x "></i></td>' +

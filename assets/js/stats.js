@@ -272,12 +272,14 @@ function getGeoData(uri, tag){
     dataType: 'json',
     retryLimit:10,
     success: function (result) {
-      const lat = result.latitude;
-      const lng = result.longitude;
-      const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
-      $('#flag_' + tag).html(emoji);
-      coords = {lat: parseFloat(lat), lng: parseFloat(lng)}
-      addMarkerToMap(coords,tag);
+      if (result){
+        const lat = result.latitude;
+        const lng = result.longitude;
+        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
+        $('#flag_' + tag).html(emoji);
+        coords = {lat: parseFloat(lat), lng: parseFloat(lng)}
+        addMarkerToMap(coords,tag);
+      }
     }
     /*
     error: function(xhr, textStatus, errorThrown ) {

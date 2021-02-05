@@ -303,7 +303,7 @@ function updateMap(data){
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
     if (ip){
-      _.delay(getGeoData, 1000, geo_uri, tag)
+      _.delay(getGeoData, 5000, geo_uri, tag)
     }
   }  
 }

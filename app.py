@@ -92,9 +92,11 @@ async def emit(socket,topic,payload=None):
 		msg={ 'emit':[ topic ] }
 	else:
 		msg={ 'emit':[ topic, payload] }
-	if socket is not None:
-		if not socket._req.transport.is_closing():
-			await socket.send_str(json.dumps(msg))
+	if _ws is not None:
+		if _ws._req is not None:
+			if _ws._req.transport is not None:
+				if not _ws._req.transport.is_closing():
+					await socket.send_str(json.dumps(msg))
 
 
 async def handle_hello(socket, payload):
@@ -177,8 +179,10 @@ class NodeSocket(web.View):
 				ser = json.loads(msg.data)
 				for _ws in self.request.app['websockets']:
 					if _ws is not None:
-						if not _ws._req.transport.is_closing():
-							await _ws.send_str(msg.data)
+						if _ws._req is not None:
+							if _ws._req.transport is not None:
+								if not _ws._req.transport.is_closing():
+									await _ws.send_str(msg.data)
 				topic = ser['emit'][0]
 				ser['emit'][1]['ip'] = self.request.remote
 				payload = ser['emit'][1]

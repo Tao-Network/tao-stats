@@ -108,15 +108,13 @@ async def handle_hello(socket, payload):
 			lat=0.0
 			longi=0.0
 		else:
-			#location_data =DbIpCity.get(payload['ip'], api_key='free') 
-			#lat = location_data.latitude
-			#longi = location_data.longitude
 			lat=0.0
 			longi=0.0
 		IP_ADDR[payload['id']]={
 			'ip':payload['ip'],
 			'geo': '{0},{1}'.format(lat,longi) 
 		}
+		print (payload)
 		await emit(socket,'ready')
 	else:
 		await socket.close()

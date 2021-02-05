@@ -257,6 +257,7 @@ function updateMap(data){
       success: function (result) {
         const lat = result.latitude;
         const lng = result.longitude;
+        console.log(result);
         const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
         $('#flag_' + tag).html(emoji);
         addMarkerToMap(lat,lng,tag);

@@ -259,8 +259,7 @@ function updateHighestBlock(block_number,timestamp){
 function addMarkerToMap(coords,key) {
   if (!markers.find(function(x){ return x === key})){
     console.log(coords)
-    console.log(node_group);
-    H.map.addMarkerToGroup(node_group, coords);
+    map.addMarkerToGroup(node_group, coords);
     markers.push(key);
   }
 }
@@ -273,6 +272,7 @@ function getGeoData(uri, tag){
     retryLimit:10,
     success: function (result) {
       if (result){
+        console.log(result)
         const lat = result.latitude;
         const lng = result.longitude;
         const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 

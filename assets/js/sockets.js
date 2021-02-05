@@ -99,6 +99,7 @@ $( document ).ready(function() {
 		websocket = startConnection();
 	} 
 	function onMessage(event){ 
+		console.log(event)
 		msg = JSON.parse(event.data);
 		topic = msg.emit[0];
 		payload = msg.emit[1];

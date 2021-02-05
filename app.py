@@ -92,7 +92,7 @@ async def emit(socket,topic,payload=None):
 		msg={ 'emit':[ topic ] }
 	else:
 		msg={ 'emit':[ topic, payload] }
-	if socket.is_connected():
+	if not socket._req.transport.is_closing():
 		await socket.send_str(json.dumps(msg))
 
 
@@ -175,7 +175,7 @@ class NodeSocket(web.View):
 			if msg.type == aiohttp.WSMsgType.TEXT:
 				ser = json.loads(msg.data)
 				for _ws in self.request.app['websockets']:
-					if _ws.is_connected:
+					if not _ws._req.transport.is_closing():
 						await _ws.send_str(msg.data)
 				topic = ser['emit'][0]
 				ser['emit'][1]['ip'] = self.request.remote

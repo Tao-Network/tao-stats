@@ -257,7 +257,6 @@ function updateHighestBlock(block_number,timestamp){
 }
 
 function addMarkerToMap(_lat,_lng,key) {
-  map = $('#location_map');
   if (!markers.find(function(x){ return x === key})){
     var marker = new H.map.Marker({lat:_lat, lng:_lng});
     H.map.addObject(marker);
@@ -272,7 +271,6 @@ function getGeoData(uri, tag){
     dataType: 'json',
     retryLimit:10,
     success: function (result) {
-      console.log(result)
       const lat = result.latitude;
       const lng = result.longitude;
       const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 

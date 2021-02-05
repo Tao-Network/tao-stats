@@ -189,26 +189,28 @@ var block_bar_val = 0;
 
 function updateBlocks(data){
   if (!block_list.find(function(x){ return x === data.block.hash})){
-    block_list.push(data.block.hash); 
-    tx_count = data.block.transactions.length;
-    if (tx_count>150){
-      tx_color='success'
-    } else {
-      if (tx_count > 10){
-        tx_color='warning'
+    if (data.block.number > highest_block){
+      block_list.push(data.block.hash); 
+      tx_count = data.block.transactions.length;
+      if (tx_count>150){
+        tx_color='success'
       } else {
-        tx_color='danger'
+        if (tx_count > 10){
+          tx_color='warning'
+        } else {
+          tx_color='danger'
+        }
       }
+      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
+        .hide()
+        .prependTo($('#last_blocks_body'))
+        .fadeIn("slow")
+        .addClass('normal');
+      $('#last_blocks_table tr:last').remove();
+      if (block_list.length > 10)
+        block_list = block_list.slice(0,10);   
+      updateHighestBlock(data.block.number,NaN);
     }
-    $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
-      .hide()
-      .prependTo($('#last_blocks_body'))
-      .fadeIn("slow")
-      .addClass('normal');
-    $('#last_blocks_table tr:last').remove();
-    if (block_list.length > 10)
-      block_list = block_list.slice(0,10);   
-    updateHighestBlock(data.block.number,NaN);
   }
 }
 

@@ -282,7 +282,7 @@ function getGeoData(uri, tag){
           addMarkerToMap(coords,tag);
         }
       }
-    },
+    }/*,
     error: function(xhr, textStatus, errorThrown ) {
       if (textStatus == 'timeout') {
         this.tryCount++;
@@ -293,7 +293,7 @@ function getGeoData(uri, tag){
         }            
         return;
       }
-    }
+    }*/
   });  
 }
 

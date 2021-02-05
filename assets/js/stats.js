@@ -235,7 +235,7 @@ function updateBlocks(data){
           tx_color='danger'
         }
       }
-      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + ' fa-2x" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
+      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
         .hide()
         .prependTo($('#last_blocks_body'))
         .fadeIn("slow")
@@ -274,20 +274,23 @@ var throttled = _.throttle(function(geo_uri){
       if (result.country_code){
         const lat = result.latitude;
         const lng = result.longitude;
-        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
+        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
         $('#flag_' + tag).html(emoji);
         addMarkerToMap(lat,lng,tag);
+        console.log(result)
       }
     }
   });
-}, 500);
+}, 750);
 
 async function updateMap(data){
   var ip = data.info.ip;
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
-    throttled(geo_uri)
+    if (ip){
+      throttled(geo_uri);
+    }
   }  
 }
 

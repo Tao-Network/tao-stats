@@ -1,0 +1,52 @@
+version: "2"
+services:
+  letsencrypt:
+    image: linuxserver/letsencrypt
+    container_name: letsencrypt
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=stats.tao.network
+      - SUBDOMAINS=
+      - VALIDATION=http
+      - DNSPLUGIN=gandi #optional
+      - EMAIL=<e-mail> #optional
+      - DHLEVEL=2048 #optional
+      - ONLY_SUBDOMAINS=false #optional
+      - STAGING=false #optional
+    volumes:
+      - /root/config:/config
+    ports:
+      - 443:443
+      - 80:80 #optional
+    restart: unless-stopped
+  taonode:
+    image: taoblockchain/node:latest
+    container_name: taonode
+    volumes:
+      - /root/data:/tao2/data
+    expose:
+      - 8545
+      - 8546
+      - 20202
+    ports:
+      - 8545:8545
+      - 20202:20202
+      - 8546:8546
+    restart: unless-stopped
+    environment:
+      - MAXPEERS=100
+      - STORE_REWARD=1
+  taointel:
+    image: taostats:latest
+    container_name: netstats
+    build: .
+    command: bash -c "python /code/app.py"
+    volumes:
+      - .:/code
+    expose:
+      - 3000
+    restart: always

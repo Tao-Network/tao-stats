@@ -278,7 +278,7 @@ function getGeoData(uri, tag){
       const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
       $('#flag_' + tag).html(emoji);
       addMarkerToMap(lat,lng,tag);
-    },
+    }
     /*
     error: function(xhr, textStatus, errorThrown ) {
       if (textStatus == 'timeout') {

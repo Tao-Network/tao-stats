@@ -260,7 +260,7 @@ function updateMap(data){
         const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + '"></i>'; 
         $('#flag_' + tag).html(emoji);
         addMarkerToMap(lat,lng,tag);
-      };
+      }
     });
   }  
 }

@@ -265,15 +265,13 @@ function addMarkerToMap(_lat,_lng,key) {
   }
 }
 async function updateMap(data){
-  const geo_api_key='122e3cf0c5039549e14a02ba485bc7ab';
-  const geo_url = 'https://api.ipstack.com/';
-  var geo_params = '?access_key='+geo_api_key+'&output=json';
   var ip = data.info.ip;
   var geo_uri = geo_url + ip + geo_params;
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
     throttle(function() {
+      console.log('innit')
         $.ajax({
           type: 'GET',
           url: geo_uri,

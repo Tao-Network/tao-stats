@@ -260,7 +260,7 @@ function addMarkerToMap(_lat,_lng,key) {
   map = $('#location_map');
   if (!markers.find(function(x){ return x === key})){
     var marker = new H.map.Marker({lat:_lat, lng:_lng});
-    map.addObject(marker);
+    H.map.addObject(marker);
     markers.push(key);
   }
 }
@@ -270,6 +270,7 @@ function getGeoData(uri, tag){
     type: 'GET',
     url: uri,
     dataType: 'json',
+    retryLimit:10,
     success: function (result) {
       console.log(result)
       const lat = result.latitude;
@@ -277,6 +278,16 @@ function getGeoData(uri, tag){
       const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
       $('#flag_' + tag).html(emoji);
       addMarkerToMap(lat,lng,tag);
+    }
+    error : function(xhr, textStatus, errorThrown ) {
+      if (textStatus == 'timeout') {
+        this.tryCount++;
+        if (this.tryCount <= this.retryLimit) {
+          $.ajax(this);
+          return;
+        }            
+        return;
+      }
     }
   });  
 }

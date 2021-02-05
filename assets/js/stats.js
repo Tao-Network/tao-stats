@@ -256,9 +256,11 @@ function updateHighestBlock(block_number,timestamp){
   block_bar_val = 0;
 }
 
-function addMarkerToMap(_lat,_lng,key) {
+function addMarkerToMap(coords,key) {
   if (!markers.find(function(x){ return x === key})){
-    map.addMarkerToGroup(node_group, {lat:_lat, lng:_lng});
+    console.log(coords)
+    console.log(node_group);
+    H.map.addMarkerToGroup(node_group, coords);
     markers.push(key);
   }
 }
@@ -274,7 +276,8 @@ function getGeoData(uri, tag){
       const lng = result.longitude;
       const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
       $('#flag_' + tag).html(emoji);
-      addMarkerToMap(parseFloat(lat),parseFloat(lng),tag);
+      coords = {lat: parseFloat(lat), lng: parseFloat(lng)}
+      addMarkerToMap(coords,tag);
     }
     /*
     error: function(xhr, textStatus, errorThrown ) {

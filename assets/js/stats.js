@@ -241,7 +241,13 @@ function addMarkerToMap(lat,lng,key) {
     markers.push(key);
   }
 }
-
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
 function updateMap(data){
   const geo_api_key='122e3cf0c5039549e14a02ba485bc7ab';
   const geo_url = 'https://api.ipstack.com/';
@@ -252,6 +258,7 @@ function updateMap(data){
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
+    sleep(1000);
     $.ajax({
       type: 'GET',
       url: geo_uri,

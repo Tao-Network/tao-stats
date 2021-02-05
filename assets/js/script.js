@@ -126,6 +126,4 @@ $( document ).ready(function() {
         suppressScrollX: !0,
         wheelPropagation: !0
     })
-
-
 });

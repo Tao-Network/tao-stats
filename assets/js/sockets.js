@@ -99,7 +99,6 @@ $( document ).ready(function() {
 		websocket = startConnection();
 	} 
 	function onMessage(event){ 
-		console.log(event)
 		msg = JSON.parse(event.data);
 		topic = msg.emit[0];
 		payload = msg.emit[1];
@@ -138,6 +137,12 @@ $( document ).ready(function() {
 		$('#socket-connection').addClass("font-danger");
 		failNotify();
 		websocket = startConnection();
-		var websocket= new WebSocket("wss://" + websocket_uri);
-	}  
+	}
+	var i = setInterval(function(){
+		if (websocket.readyState === WebSocket.CLOSED) {
+			$('#socket-connection').removeClass("font-success");
+			$('#socket-connection').addClass("font-danger");
+			websocket = startConnection();
+		}
+	}, 1000);  
 });

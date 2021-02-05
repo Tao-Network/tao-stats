@@ -172,42 +172,44 @@ class NodeSocket(web.View):
 		ws = web.WebSocketResponse()
 		await ws.prepare(self.request)
 		_id=''
-		if (not 'websockets' in self.request.app.keys()):
-			self.request.app['websockets']=[]
-		async for msg in ws:
-			if msg.type == aiohttp.WSMsgType.TEXT:
-				ser = json.loads(msg.data)
-				for _ws in self.request.app['websockets']:
-					if _ws is not None:
-						if _ws._req is not None:
-							if _ws._req.transport is not None:
-								if not _ws._req.transport.is_closing():
-									await _ws.send_str(msg.data)
-				topic = ser['emit'][0]
-				ser['emit'][1]['ip'] = self.request.remote
-				payload = ser['emit'][1]
-				_id = payload['id']
-				function=getattr(sys.modules[__name__], 'handle_{0}'.format(topic.replace('-','_')))
-				if topic == 'end':
-					del INFO[_id]
-					del LATENCY[_id]
-					del STATS[_id]
-					del PENDING[_id]
-					del IP_ADDR[_id]
-					await ws.close()
-				else:
-					await function(ws,payload)
-			elif msg.type == aiohttp.WSMsgType.ERROR:
-				# delete node 
-				print('ws connection closed with exception %s' %
-					  ws.exception())
-
+		try:
+			if (not 'websockets' in self.request.app.keys()):
+				self.request.app['websockets']=[]
+			async for msg in ws:
+				if msg.type == aiohttp.WSMsgType.TEXT:
+					ser = json.loads(msg.data)
+					topic = ser['emit'][0]
+					ser['emit'][1]['ip'] = self.request.remote
+					payload = ser['emit'][1]
+					_id = payload['id']
+					for _ws in self.request.app['websockets']:
+						if _ws is not None:
+							if _ws._req is not None:
+								if _ws._req.transport is not None:
+									if not _ws._req.transport.is_closing():
+										await _ws.send_str(json.dumps(ser))
+					function=getattr(sys.modules[__name__], 'handle_{0}'.format(topic.replace('-','_')))
+					if topic == 'end':
+						del INFO[_id]
+						del LATENCY[_id]
+						del STATS[_id]
+						del PENDING[_id]
+						del IP_ADDR[_id]
+						await ws.close()
+					else:
+						await function(ws,payload)
+				elif msg.type == aiohttp.WSMsgType.ERROR:
+					# delete node 
+					print('ws connection closed with exception %s' %
+						  ws.exception())
+		except ConnectionResetError:
+			pass
 		del INFO[_id]
 		del LATENCY[_id]
 		del STATS[_id]
 		del PENDING[_id]
 		del IP_ADDR[_id]
-		print('websocket connection closed')
+		print('{0} connection closed'.format(request.remote))
 
 		return ws
 

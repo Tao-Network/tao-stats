@@ -247,6 +247,7 @@ function updateMap(data){
   const geo_url = 'https://api.ipstack.com/';
   var geo_params = '?access_key='+geo_api_key+'&output=json';
   var ip = data.info.ip;
+  console.log(data)
   var geo_uri = geo_url + ip + geo_params;
   var geo_uri = 'https://ipapi.co/' + ip + '/json/'
   var tag = md5(data.id);

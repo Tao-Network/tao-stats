@@ -114,7 +114,6 @@ async def handle_hello(socket, payload):
 			'ip':payload['ip'],
 			'geo': '{0},{1}'.format(lat,longi) 
 		}
-		print (payload)
 		await emit(socket,'ready')
 	else:
 		await socket.close()

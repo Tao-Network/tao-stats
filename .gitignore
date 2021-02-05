@@ -6,7 +6,6 @@ redis/
 db.sqlite3
 celery.log
 reset.sh
-/assets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

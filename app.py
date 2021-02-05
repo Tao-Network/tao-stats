@@ -170,6 +170,7 @@ class NodeSocket(web.View):
 		ws = web.WebSocketResponse()
 		await ws.prepare(self.request)
 		_id=''
+
 		try:
 			if (not 'websockets' in self.request.app.keys()):
 				self.request.app['websockets']=[]
@@ -177,7 +178,7 @@ class NodeSocket(web.View):
 				if msg.type == aiohttp.WSMsgType.TEXT:
 					ser = json.loads(msg.data)
 					topic = ser['emit'][0]
-					ser['emit'][1]['ip'] = self.request.remote
+					ser['emit'][1]['ip'] = request.headers.get('X-Real-IP')
 					payload = ser['emit'][1]
 					_id = payload['id']
 					for _ws in self.request.app['websockets']:

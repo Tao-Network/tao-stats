@@ -277,7 +277,7 @@ function getGeoData(uri, tag){
       const lng = result.longitude;
       const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
       $('#flag_' + tag).html(emoji);
-      addMarkerToMap(lat,lng,tag);
+      addMarkerToMap(parseFloat(lat),parseFloat(lng),tag);
     }
     /*
     error: function(xhr, textStatus, errorThrown ) {
@@ -300,7 +300,7 @@ function updateMap(data){
   var tag = md5(data.id);
   if (!markers.find(function(x){ return x === tag})){
     if (ip){
-      _.delay(getGeoData, 1000, geo_uri, tag)
+      _.delay(getGeoData, 5000, geo_uri, tag)
     }
   }  
 }

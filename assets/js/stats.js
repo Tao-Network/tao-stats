@@ -256,6 +256,7 @@ function updateHighestBlock(block_number,timestamp){
   block_bar_val = 0;
 }
 
+<<<<<<< HEAD
 function getGeoData(uri, tag){
   $.ajax({
     type: 'GET',
@@ -299,6 +300,8 @@ function updateMap(data){
   }  
 }
 
+=======
+>>>>>>> e9edc2ccdbdb3e570ce021699c5bf7175fa8c18d
 var shifu_api = "https://shifu-beta.tao.network/api/network_info/"
 function getShifuData(shifu_api){
     $.ajax({
@@ -307,7 +310,7 @@ function getShifuData(shifu_api){
       dataType: 'json',
       success: function (result) {
       	block_number = parseFloat(result.current_block).toFixed(4)
-        if (highest_block == 0){
+        if (highest_block != block_number){
           highest_block = block_number          
           updateHighestBlock(block_number,result.block_timestamp);
         }

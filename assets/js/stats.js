@@ -256,14 +256,6 @@ function updateHighestBlock(block_number,timestamp){
   block_bar_val = 0;
 }
 
-function addMarkerToMap(coords,key) {
-  if (!markers.find(function(x){ return x === key})){
-    console.log(coords)
-    map.addMarkerToGroup(node_group, coords);
-    markers.push(key);
-  }
-}
-
 function getGeoData(uri, tag){
   $.ajax({
     type: 'GET',
@@ -279,7 +271,6 @@ function getGeoData(uri, tag){
         $('#flag_' + tag).html(emoji);
         if (lat != NaN){        
           coords = {lat: parseFloat(lat), lng: parseFloat(lng)}
-          addMarkerToMap(coords,tag);
         }
       }
     }/*,

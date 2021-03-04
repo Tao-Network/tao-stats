@@ -1,62 +1,30 @@
 function successNotify(){
-	$.notify({
-		  title:'SUCCESS',
-		  message:'Websocket connected!'
-		},
-		{
-		  type:'success',
-		  allow_dismiss:false,
-		  newest_on_top:true ,
-		  mouse_over:true,
-		  showProgressbar:true,
-		  spacing:10,
-		  timer:2000,
-		  placement:{
-		    from:'top',
-		    align:'center'
-		  },
-		  offset:{
-		    x:30,
-		    y:30
-		  },
-		  delay:1000 ,
-		  z_index:10000,
-		  animate:{
-		    enter:'animated bounce',
-		    exit:'animated bounce'
-		}
-		});
+			Lobibox.notify('success', {
+			sound: false,
+		    pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+		    position: 'center top',
+		    showClass: 'rollIn',
+            hideClass: 'rollOut',
+            icon: 'fa fa-check-circle',
+            width: 600,
+		    msg: 'Websocket connected!'
+		    });
 
 }
 
 function failNotify(){
-	$.notify({
-	  title:'WARNING',
-	  message:'Websocket disconnected! Attempting to reconnect...'
-	},
-	{
-	  type:'danger',
-	  allow_dismiss:false,
-	  newest_on_top:true ,
-	  mouse_over:true,
-	  showProgressbar:true,
-	  spacing:10,
-	  timer:2000,
-	  placement:{
-	    from:'top',
-	    align:'center'
-	  },
-	  offset:{
-	    x:30,
-	    y:30
-	  },
-	  delay:1000 ,
-	  z_index:10000,
-	  animate:{
-	    enter:'animated bounce',
-	    exit:'animated bounce'
-	}
-	});	
+	Lobibox.notify('error', {
+	sound: false,
+    pauseDelayOnHover: true,
+    continueDelayOnInactiveTab: false,
+    icon: 'fa fa-times-circle',
+    position: 'center top',
+    showClass: 'lightSpeedIn',
+    hideClass: 'lightSpeedOut',
+    width: 600,
+    msg: 'Websocket disconnected! Attempting to reconnect...'
+    });
 }
 $( document ).ready(function() {
 	// Create a WebSocket Connection  
@@ -65,8 +33,16 @@ $( document ).ready(function() {
 	var shifu_addr = arr[2]
 	var socket_api = "/socket"
 	var websocket_uri = shifu_addr + socket_api
+	var protocol = ''
+	if (url.indexOf('https')>-1){
+		protocol = 'wss'
+	} else {
+		protocol='ws'
+	}
 	const startConnection=()=>{
-		return new WebSocket("wss://" + websocket_uri);
+		var uri = protocol + "://" + websocket_uri
+		console.log(uri)
+		return new WebSocket(uri);
 	}
 
 	var websocket = startConnection();

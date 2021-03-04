@@ -256,58 +256,6 @@ function updateHighestBlock(block_number,timestamp){
   block_bar_val = 0;
 }
 
-function addMarkerToMap(coords,key) {
-  if (!markers.find(function(x){ return x === key})){
-    console.log(coords)
-    map.addMarkerToGroup(node_group, coords);
-    markers.push(key);
-  }
-}
-
-function getGeoData(uri, tag){
-  $.ajax({
-    type: 'GET',
-    url: uri,
-    dataType: 'json',
-    retryLimit:10,
-    success: function (result) {
-      if (result){
-        console.log(result)
-        const lat = result.latitude;
-        const lng = result.longitude;
-        const emoji = '<i class="flag-icon flag-icon-' + result.country_code.toLowerCase() + ' fa-2x"></i>'; 
-        $('#flag_' + tag).html(emoji);
-        if (lat != NaN){        
-          coords = {lat: parseFloat(lat), lng: parseFloat(lng)}
-          addMarkerToMap(coords,tag);
-        }
-      }
-    }/*,
-    error: function(xhr, textStatus, errorThrown ) {
-      if (textStatus == 'timeout') {
-        this.tryCount++;
-        if (this.tryCount <= this.retryLimit) {
-          _ajax = $.ajax(this);
-          _.delay(_ajax, 1000);
-          return;
-        }            
-        return;
-      }
-    }*/
-  });  
-}
-
-function updateMap(data){
-  var ip = data.info.ip;
-  var geo_uri = 'https://ipapi.co/' + ip + '/json/'
-  var tag = md5(data.id);
-  if (!markers.find(function(x){ return x === tag})){
-    if (ip){
-      _.delay(getGeoData, 5000, geo_uri, tag)
-    }
-  }  
-}
-
 var shifu_api = "https://shifu-beta.tao.network/api/network_info/"
 function getShifuData(shifu_api){
     $.ajax({
@@ -316,7 +264,7 @@ function getShifuData(shifu_api){
       dataType: 'json',
       success: function (result) {
       	block_number = parseFloat(result.current_block).toFixed(4)
-        if (highest_block == 0){
+        if (highest_block != block_number){
           highest_block = block_number          
           updateHighestBlock(block_number,result.block_timestamp);
         }

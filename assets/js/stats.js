@@ -223,9 +223,8 @@ var block_bar_val = 0;
 
 function updateBlocks(data){
   if (!block_list.find(function(x){ return x === data.block.hash})){
-    if (data.block.number > highest_block){
-      highest_block = data.block.number
       block_list.push(data.block.hash); 
+      highest_block = data.block.number
       tx_count = data.block.transactions.length;
       if (tx_count>150){
         tx_color='success'
@@ -245,7 +244,6 @@ function updateBlocks(data){
       if (block_list.length > 10)
         block_list = block_list.slice(0,10);   
       updateHighestBlock(data.block.number,NaN);
-    }
   }
 }
 

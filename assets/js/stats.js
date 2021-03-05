@@ -315,12 +315,6 @@ function getShifuData(shifu_api){
       	$('#validator-count').html(result.validator_count);
       	$('#lifetime-roi').html(result.validator_avg_roi);
 
-        time_until_next_epoch = (Math.abs(result.current_block - (result.epoch + 1) * 360 ) * 5);
-        $('#epoch').html(nf.format(parseFloat(result.epoch).toFixed(4)));
-        next_epoch_block = Math.abs((result.epoch * 360) + 360 );
-        epoch_perc = (360 - (next_epoch_block - result.current_block))  / 360 * 100;
-        $('#epoch-progress').css("width",(epoch_perc) + "%")
-        $('#last_epoch_time').html('Next: ' + secondsToHms(time_until_next_epoch));
       },
     });     
 }
@@ -332,6 +326,13 @@ const everySecond=()=>{
   } else {
     block_bar_val = 0;
   }
+  epoch = Math.floor(highest_block / 360);
+  time_until_next_epoch = (Math.abs(highest_block - (epoch + 1) * 360 ) * 5);
+  $('#epoch').html(nf.format(parseFloat(epoch).toFixed(4)));
+  next_epoch_block = Math.abs((epoch * 360) + 360 );
+  epoch_perc = (360 - (next_epoch_block - highest_block))  / 360 * 100;
+  $('#epoch-progress').css("width",(epoch_perc) + "%")
+  $('#last_epoch_time').html('Next: ' + secondsToHms(time_until_next_epoch));
 }
 $( document ).ready(function() {
     var i = setInterval(function() {

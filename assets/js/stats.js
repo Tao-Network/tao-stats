@@ -245,7 +245,7 @@ function updateBlocks(data){
       $('#last_blocks_table tr:last').remove();
       if (block_list.length > 10)
         block_list = block_list.slice(0,10);   
-      updateHighestBlock(data.block.number,Date.now());
+      updateHighestBlock(data.block.number,Date().toString());
   }
 }
 

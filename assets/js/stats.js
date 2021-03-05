@@ -243,7 +243,7 @@ function updateBlocks(data){
       $('#last_blocks_table tr:last').remove();
       if (block_list.length > 10)
         block_list = block_list.slice(0,10);   
-      //updateHighestBlock(data.block.number,NaN);
+      updateHighestBlock(data.block.number,NaN);
     }
   }
 }
@@ -312,12 +312,6 @@ function getShifuData(shifu_api){
           updateHighestBlock(block_number,result.block_timestamp);
         }
         */
-    		if (block_bar_val < 100){
-          block_bar_val = block_bar_val + 20;
-          $("#block-progress").css("width", block_bar_val + "%")
-    		} else {
-          block_bar_val = 0;
-        }
       	$('#validator-count').html(result.validator_count);
       	$('#lifetime-roi').html(result.validator_avg_roi);
 
@@ -332,6 +326,12 @@ function getShifuData(shifu_api){
 }
 const everySecond=()=>{
 	getShifuData(shifu_api);
+  if (block_bar_val < 100){
+    block_bar_val = block_bar_val + 20;
+    $("#block-progress").css("width", block_bar_val + "%")
+  } else {
+    block_bar_val = 0;
+  }
 }
 $( document ).ready(function() {
     var i = setInterval(function() {

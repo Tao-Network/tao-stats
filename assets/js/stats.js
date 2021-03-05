@@ -225,21 +225,21 @@ var block_bar_val = 0;
 
 function updateBlocks(data){
   if (!block_list.find(function(x){ return x === data.block.hash})){
-      block_list.push(data.block.hash); 
-      highest_block = data.block.number
-      tx_count = data.block.transactions.length;
-      if (tx_count>150){
-        tx_color='success'
-      } else {
-        if (tx_count > 10){
-          tx_color='warning'
-        } else {
-          tx_color='danger'
-        }
-      }
       var len = $('table tbody td:contains("'+data.block.hash+'")').length;
-      if (len > 0)
+      if (len < 1)
       {
+        block_list.push(data.block.hash); 
+        highest_block = data.block.number
+        tx_count = data.block.transactions.length;
+        if (tx_count>150){
+          tx_color='success'
+        } else {
+          if (tx_count > 10){
+            tx_color='warning'
+          } else {
+            tx_color='danger'
+          }
+        }
         $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
           .hide()
           .prependTo($('#last_blocks_body'))

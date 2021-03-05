@@ -59,13 +59,15 @@ function processHistory(data){
   }  
 
   // blocks
-  for (const [key, value] of Object.entries(data.blocks)) {
-    d = {
-      block: value
-    }
-    updateBlocks(d);    
-  }  
-
+  if (highest_block == 0)
+  {
+    for (const [key, value] of Object.entries(data.blocks)) {
+      d = {
+        block: value
+      }
+      updateBlocks(d,Date.now());    
+    }  
+  }
   // stats
   for (const [key, value] of Object.entries(data.stats)) {
     d = {

@@ -305,11 +305,13 @@ function getShifuData(shifu_api){
       url: shifu_api,
       dataType: 'json',
       success: function (result) {
+        /*
       	block_number = parseFloat(result.current_block).toFixed(4)
         if (highest_block != block_number){
           highest_block = block_number          
           updateHighestBlock(block_number,result.block_timestamp);
         }
+        */
     		if (block_bar_val < 100){
           block_bar_val = block_bar_val + 20;
           $("#block-progress").css("width", block_bar_val + "%")

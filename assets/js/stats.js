@@ -237,15 +237,19 @@ function updateBlocks(data){
           tx_color='danger'
         }
       }
-      $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
-        .hide()
-        .prependTo($('#last_blocks_body'))
-        .fadeIn("slow")
-        .addClass('normal');
-      $('#last_blocks_table tr:last').remove();
-      if (block_list.length > 10)
-        block_list = block_list.slice(0,10);   
-      updateHighestBlock(data.block.number,Date().toString());
+      var len = $('table tbody td:contains("'+data.block.hash+'")').length;
+      if (len > 0)
+      {
+        $('<tr class="anim info"><td><a href="https://scan.tao.network/block/' + data.block.number + '" target="_blank" class="font-info">' + data.block.hash + '</a></td><td><div class="badge badge-' + tx_color + ' label-square"><i class="fa fa-code-fork"></i><span class="f-14">' + tx_count + '</span></div></td></tr>')
+          .hide()
+          .prependTo($('#last_blocks_body'))
+          .fadeIn("slow")
+          .addClass('normal');
+        $('#last_blocks_table tr:last').remove();
+        if (block_list.length > 10)
+          block_list = block_list.slice(0,10);   
+        updateHighestBlock(data.block.number,Date().toString());
+      }
   }
 }
 
